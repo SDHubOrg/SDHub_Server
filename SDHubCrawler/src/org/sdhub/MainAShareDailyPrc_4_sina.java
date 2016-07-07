@@ -40,8 +40,8 @@ public class MainAShareDailyPrc_4_sina {
 	
 	private static String tableName = "AShareDailyPrc_4_sina";
 	
-	private static Integer StartYear = 1990;
-	private static Integer EndYear = 2000;
+	private static Integer StartYear;
+	private static Integer EndYear;
 	
 	
 	static {
@@ -150,6 +150,10 @@ public class MainAShareDailyPrc_4_sina {
 			{
 				String currentDate_String = DateUtil.getCurrentData_Format3();
 				Date currentDate = new Date();
+				
+				JsonTableModel jtm = new JsonTableModel();
+				jtm.init(tableName, fields);
+				
 				for (String symbolId : symbolList) {
 
 					List<StockDataModel> stockDataList = null;
@@ -176,11 +180,6 @@ public class MainAShareDailyPrc_4_sina {
 						{
 							continue;
 						}
-						
-						JsonTableModel jtm = new JsonTableModel();
-						
-						jtm.init(tableName, fields);
-
 						HashMap<String, String> data = new HashMap<String, String>();
 						
 						StockDataModel stockDataModel = stockDataList.get(stockDataList.size() - 1);
@@ -210,13 +209,10 @@ public class MainAShareDailyPrc_4_sina {
 						data.put("Amount", stockDataModel.getAmount().toString());
 						data.put("AF", stockDataModel.getAf().toString());
 						jtm.addRecord(data, UUID.randomUUID().toString(), OptNumbers.NEW, -1);
-						
-						JsonFileManager jfManager = new JsonFileManager(Config.data_backup_path,Config.data_recent_path, tableName);
-
-						jfManager.addFile(jtm);
-
 					}
 				}
+				JsonFileManager jfManager = new JsonFileManager(Config.data_backup_path,Config.data_recent_path, tableName);
+				jfManager.addFile(jtm);
 			}else
 			{
 				Integer year = Integer.valueOf(args[0]);

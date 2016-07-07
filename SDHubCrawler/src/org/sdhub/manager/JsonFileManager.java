@@ -177,6 +177,7 @@ public class JsonFileManager {
 			JSONWriter jtmWriter = new JSONWriter(new FileWriter(newjtmFile));
 			//jtmWriter.startObject();
 			jtmWriter.writeValue(jtm);
+			
 			//jtmWriter.endObject();
 			jtmWriter.close();
 			
